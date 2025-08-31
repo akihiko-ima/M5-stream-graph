@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #define MAXIMUM_DATA_POINTS 10
+#define TARGET_VALUE 23.0f
 
 std::deque<float> data;
 std::deque<float> prev_data;
@@ -95,6 +96,13 @@ void loop()
 
   M5.Lcd.fillRect(0, 0, w, h, 0x2104);
   drawGraphFrame(w, h, graph_x0, graph_y0, graph_w, graph_h);
+
+  // ---TARGET_VALUEの赤点線描画 ---
+  int target_y = graph_y0 + graph_h - (int)(graph_h * TARGET_VALUE / 40.0f);
+  for (int x = graph_x0; x < graph_x0 + graph_w; x += 8)
+  {
+    M5.Lcd.drawLine(x, target_y, x + 4, target_y, RED); // 4px線+4px空白
+  }
 
   int n = data.size();
   if (n > 1)
